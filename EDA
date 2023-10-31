@@ -1,0 +1,88 @@
+
+> ID <- seq(1:177)
+> Age <- sample(c("0-15", "16-29", "30-44", "45-64", "65+"), 177, replace = TRUE)
+> Sex <- sample(c("Male", "Female"), 177, replace = TRUE)
+> Country <- sample(c("England", "Wales", "Scotland", "N. Ireland"), 177, replace = TRUE)
+> Health <- sample(c("Poor", "Average", "Good"), 177, replace = TRUE)
+> Survey <- data.frame(Age, Sex, Country, Health)
+> head(Survey)
+    Age    Sex    Country  Health
+1   65+ Female N. Ireland    Good
+2  0-15 Female N. Ireland    Poor
+3 30-44   Male N. Ireland    Poor
+4 45-64 Female    England    Poor
+5 16-29 Female    England Average
+6  0-15 Female      Wales    Good
+> # Load function
+> source("http://pcwww.liv.ac.uk/~william/R/crosstab.r")
+> # Frequency count
+> crosstab(Survey, row.vars = "Age", col.vars = "Sex", type = "f")
+      Sex Female Male Sum
+Age                      
+0-15          21   16  37
+16-29         14   10  24
+30-44         19   18  37
+45-64         15   20  35
+65+           21   23  44
+Sum           90   87 177
+> # Row percentages
+> crosstab(Survey, row.vars = "Age", col.vars = "Sex", type = "r")
+      Sex Female   Male    Sum
+Age                           
+0-15       56.76  43.24 100.00
+16-29      58.33  41.67 100.00
+30-44      51.35  48.65 100.00
+45-64      42.86  57.14 100.00
+65+        47.73  52.27 100.00
+> # Column percentages
+> crosstab(Survey, row.vars = "Age", col.vars = "Sex", type = "c")
+      Sex Female   Male
+Age                    
+0-15       23.33  18.39
+16-29      15.56  11.49
+30-44      21.11  20.69
+45-64      16.67  22.99
+65+        23.33  26.44
+Sum       100.00 100.00
+> # Joint percentages (sums to 100 within final two table dimensions)
+> crosstab(Survey, row.vars = c("Age", "Sex"), col.vars = "Health", type = "j")
+             Health Average   Good   Poor    Sum
+Age   Sex                                       
+0-15  Female          13.51  18.92  24.32  56.76
+      Male            21.62   5.41  16.22  43.24
+      Sum             35.14  24.32  40.54 100.00
+16-29 Female          20.83   8.33  29.17  58.33
+      Male             8.33  16.67  16.67  41.67
+      Sum             29.17  25.00  45.83 100.00
+30-44 Female          18.92  24.32   8.11  51.35
+      Male            16.22  18.92  13.51  48.65
+      Sum             35.14  43.24  21.62 100.00
+45-64 Female          11.43  17.14  14.29  42.86
+      Male            31.43  14.29  11.43  57.14
+      Sum             42.86  31.43  25.71 100.00
+65+   Female          11.36  15.91  20.45  47.73
+      Male            15.91  15.91  20.45  52.27
+      Sum             27.27  31.82  40.91 100.00
+> # Total percentages (sums to 100 across entire table)
+> crosstab(Survey, row.vars = c("Age", "Sex"), col.vars = "Health", type = "t")
+             Health Average   Good   Poor    Sum
+Age   Sex                                       
+0-15  Female           2.82   3.95   5.08  11.86
+      Male             4.52   1.13   3.39   9.04
+      Sum              7.34   5.08   8.47  20.90
+16-29 Female           2.82   1.13   3.95   7.91
+      Male             1.13   2.26   2.26   5.65
+      Sum              3.95   3.39   6.21  13.56
+30-44 Female           3.95   5.08   1.69  10.73
+      Male             3.39   3.95   2.82  10.17
+      Sum              7.34   9.04   4.52  20.90
+45-64 Female           2.26   3.39   2.82   8.47
+      Male             6.21   2.82   2.26  11.30
+      Sum              8.47   6.21   5.08  19.77
+65+   Female           2.82   3.95   5.08  11.86
+      Male             3.95   3.95   5.08  12.99
+      Sum              6.78   7.91  10.17  24.86
+Sum   Female          14.69  17.51  18.64  50.85
+      Male            19.21  14.12  15.82  49.15
+      Sum             33.90  31.64  34.46 100.00
+> 
